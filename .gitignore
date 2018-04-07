@@ -1,0 +1,7 @@
+# Gitignore file for lotusstat
+# ============================
+
+# Test  metadata generated from source files by pytest
+.pytest_cache
+.eggs
+/*.egg-info
