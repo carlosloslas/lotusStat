@@ -1,7 +1,8 @@
 from setuptools import setup
+from lotusstat import version
 
 setup(name='lotusstat',
-      version='0.0.1',
+      version=version,
       description='Python tools for analysing Lotus output files',
       url='https://bitbucket.org/carlosloslas/lotusstat',
       author='Carlos Losada',
