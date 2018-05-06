@@ -9,3 +9,4 @@
 # Installing metadata
 /build/
 /dist/
+/lotusstat/__pycache__/
