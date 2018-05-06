@@ -9,7 +9,10 @@ C.Losada de la Lastra
 """
 
 from .__version__ import version
+from .io import *
 from .plots import *
+from .signals import *
+
 
 def hello():
     # test function to confirm import has succeded
