@@ -55,10 +55,14 @@ def calculate_signal_stats(df, column, signal_range=(0,1)):
     mad = stats_mad(s_stat.values) # MAD from Pandas does not give the expected results...:s
     return {'mean': mean, 'mad': mad, 'tmn': df['time'][imn], 'tmx': df['time'][imx]}
 
-def plot_lift_signal(df, plot_stats=False, stats=None, show_visc=False,**kwargs):
+def plot_lift_signal(df, plot_stats=False, stats=None, show_stats=False, show_visc=False,**kwargs):
     fig = plt.figure(**kwargs)
     ax = plt.gca()
     df.plot('time', 'totalForceY', ax=ax)
+    
+    ax_y_mn, ax_y_mx = ax.get_ylim()
+    ax_y_h = ax_y_mx - ax_y_mn
+    ax_x_mn, ax_x_mx = ax.get_xlim()
     if show_visc:
         df.plot('time', 'vForceY', ax=ax)
     if plot_stats:
@@ -69,19 +73,27 @@ def plot_lift_signal(df, plot_stats=False, stats=None, show_visc=False,**kwargs)
         ax_y_mn, ax_y_mx = ax.get_ylim()
         ax.add_patch(
             patches.Rectangle(
-                (stats['tmn'], ax_y_mn),              # (x,y)
+                (stats['tmn'], 1.15 * ax_y_mn),              # (x,y)
                 stats['tmx'] - stats['tmn'],                          # width
-                ax_y_mx - ax_y_mn,    # height
+                1.15 * ax_y_h,    # height
             alpha=0.25
             )   
         )
-        
+    if show_stats:
+        ax.text(0.5 * (stats['tmn'] + stats['tmx']), 1.1*(df['totalForceY'].min()),
+                'mad = {0}'.format(round(stats['mad'], 3)),
+                horizontalalignment='center'
+                )
+        ax.set_ylim(1.05*ax_y_mn, ax_y_mx)
     return fig, ax
 
-def plot_drag_signal(df, plot_stats=False, stats=None, show_visc=False, **kwargs):
+def plot_drag_signal(df, plot_stats=False, stats=None, show_stats=False, show_visc=False, **kwargs):
     fig = plt.figure(**kwargs)
     ax = plt.gca()
     df.plot('time', 'totalForceX', ax=ax)
+    
+    ax_y_mn, ax_y_mx = ax.get_ylim()
+    ax_x_mn, ax_x_mx = ax.get_xlim()
     if show_visc:
         df.plot('time', 'vForceX', ax=ax)
     if plot_stats:
@@ -89,7 +101,6 @@ def plot_drag_signal(df, plot_stats=False, stats=None, show_visc=False, **kwargs
         #ax.axvline(stats['tmx'], color='black', linewidth=1, alpha=0.5)
         ax.axhline(stats['mean'])
         
-        ax_y_mn, ax_y_mx = ax.get_ylim()
         ax.add_patch(
             patches.Rectangle(
                 (stats['tmn'], ax_y_mn),              # (x,y)
@@ -98,6 +109,11 @@ def plot_drag_signal(df, plot_stats=False, stats=None, show_visc=False, **kwargs
             alpha=0.25
             )   
         )
+    if show_stats:
+        ax.text(0.5 * (stats['tmn'] + stats['tmx']), 0.45*(ax_y_mn + ax_y_mx),
+                'mean = {0}'.format(round(stats['mean'], 3)),
+                horizontalalignment='center'
+                )
     return fig, ax
 
 if __name__ == '__main__':
@@ -111,5 +127,5 @@ if __name__ == '__main__':
     lift_stats = calculate_signal_stats(data_df, 'totalForceY', signal_range=(0.8, 1))
     drag_stats = calculate_signal_stats(data_df, 'totalForceX', signal_range=(0.8, 1))
     
-    fig, ax = plot_lift_signal(data_df, show_visc=True, plot_stats=True, stats=lift_stats, figsize=(10,5))
-    plot_drag_signal(data_df, plot_stats=True, stats=drag_stats, figsize=(10,5))
+    fig, ax = plot_lift_signal(data_df, show_visc=True, plot_stats=True, stats=lift_stats, show_stats=True, figsize=(10,5))
+    plot_drag_signal(data_df, plot_stats=True, stats=drag_stats, show_stats=True, figsize=(10,5))
