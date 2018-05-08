@@ -23,7 +23,7 @@ def calculate_signal_stats(df, column, signal_range=(0,1)):
     """
     mn_signal, mx_signal = signal_range
     imn = round(len(df) * mn_signal)
-    imx = round(len(df) * mx_signal)
+    imx = round(len(df) * mx_signal) - 1 #DataFrame starts index @0
     
     s_stat = df[column].iloc[imn:imx] #from DataFrame to Series
     mean = s_stat.mean()
