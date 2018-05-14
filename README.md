@@ -10,7 +10,8 @@ __Statistical post processing of Lotus simulations__
 
 1. Clone repository
 2. Navigate to `...\LotusStat\`
-3. Install the package `python setup.py install`
+3. Checkout the latest version `git checkout vX.Y.Z`
+4. Install the package `python setup.py install`
 
 # Quick example
 
