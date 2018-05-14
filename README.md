@@ -3,8 +3,8 @@ __Statistical post processing of Lotus simulations__
 
 ![](vorticity.png)
 
-![](lift.png)
-![](drag.png)
+ ![](lift.png) | ![](drag.png)
+:-------------:|:--------------:
 
 # Installation
 
@@ -16,7 +16,7 @@ __Statistical post processing of Lotus simulations__
 
 Also found in `...\LotusStat\examples\quick_examply.py`
 
-```{python}
+```python
 import lotusstat as lstat
 import matplotlib.pyplot as plt
 
