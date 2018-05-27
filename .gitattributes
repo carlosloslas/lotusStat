@@ -1,2 +1,3 @@
-/* linguist-detectable=False
-lotusstat/lotustat/* linguist-detectable=True
+dev/* linguist-detectable=False
+examples/* linguist-detectable=False
+lotusstat/* linguist-detectable=True
